@@ -144,7 +144,7 @@ std::vector<Cell> TicTacToeBoard::getEmptyCells(){
 }
 
 bool TicTacToeBoard::playCellSilently(int row, int col, int player){
-    Cell cell = *this->cells[row][col];
+    Cell cell = this->cells[row][col];
 
     cell.owner = player;
     if(!this->winner){
@@ -297,7 +297,7 @@ public:
             // currentBoard = new TicTacToeBoard(0,0);
 
             //this->currentBoard = this->boards[other.currentBoard->row][other.currentBoard->col];
-            this->currentBoard = boards[other.currentBoard->row][other.currentBoard->col];
+            currentBoard = &boards[other.currentBoard->row][other.currentBoard->col];
         }
 
 
@@ -724,15 +724,14 @@ int main()
     std::srand(time(NULL));
     MonteBot test;
     Game game;
-    //game.boards[0][0]->cells[0][1]->winner = 2341;
-    //game.winner = 1;
-    //Game newgame(game);
-
-    //std::cout << endl << newgame.boards[0][0]->cells[0][1]->winner << endl;
 
 
+    //Computer moves first
     test.startCalculation(game);
+
+    //Calculate ahead one move
     test.calculateAhead(game);
+
     test.play(game);
     cout << "Hello World!" << endl;
     return 0;
