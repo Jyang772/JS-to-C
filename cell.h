@@ -3,14 +3,21 @@
 
 class Cell{
 public:
-    Cell(int row, int col);
-    Cell& clone();
-    void setWinner(int winner);
-    void playCell(int newOwner);
-    int row;
-    int col;
-    int owner;
-    int winner;
+  Cell();
+  Cell(int row, int col);
+  Cell(const Cell& other);
+
+  bool operator==(const Cell&) const;
+  bool operator!=(const Cell&) const;
+
+  const Cell& clone();
+
+  void setWinner(int winner);
+  void playCell(int newOwner);
+  int row = -1;
+  int col = -1;
+  int owner = 0;
+  int winner = 0;
 };
 
 

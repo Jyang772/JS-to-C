@@ -18,24 +18,8 @@ Clone::Clone(int boardRow,int boardCol,int cellRow,int cellCol,Game clone,int wi
 Clone::Clone(const Clone& other){
 
     this->boardRow = other.boardRow;
-    this->boardCol = other.boardRow;
-    this->cellRow = other.cellRow;
-    this->cellCol = other.cellCol;
-    this->wins = other.wins;
-    this->weightedWins = other.weightedWins;
-    this->weightedLosses = other.weightedLosses;
-    this->losses = other.losses;
-    this->ties = other.ties;
-
-    this->clone = other.clone;
-
-}
-
-
-Clone& Clone::operator=(const Clone& other){
-
-    this->boardRow = other.boardRow;
-    this->boardCol = other.boardRow;
+    //    this->boardCol = other.boardRow; // <---- Here was the typo
+    this->boardCol = other.boardCol;
     this->cellRow = other.cellRow;
     this->cellCol = other.cellCol;
     this->wins = other.wins;
@@ -47,3 +31,20 @@ Clone& Clone::operator=(const Clone& other){
     this->clone = other.clone;
 }
 
+
+
+// Clone& Clone::operator=(const Clone& other){
+//     this->boardRow = other.boardRow;
+//     this->boardCol = other.boardRow;
+//     this->cellRow = other.cellRow;
+//     this->cellCol = other.cellCol;
+//     this->wins = other.wins;
+//     this->weightedWins = other.weightedWins;
+//     this->weightedLosses = other.weightedLosses;
+//     this->losses = other.losses;
+//     this->ties = other.ties;
+
+//     this->clone = other.clone;
+
+//   return *this;
+// }

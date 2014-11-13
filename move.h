@@ -1,6 +1,7 @@
 #ifndef MOVE_H
 #define MOVE_H
 
+
 struct Move{
     Move(){}
     Move(int bRow,int bCol,int cRow,int cCol){

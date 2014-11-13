@@ -18,23 +18,27 @@ bool monteWeightByGameLength = true;
 
 int main()
 {
-
     //Test case.
     std::srand(time(NULL));
     MonteBot test;
     Game game;
 
-    //Computer starts calculating moves.
-    test.startCalculation(game);
-    test.calculateAhead(game);
+    std::cout << "Starting game with boards:" << std::endl;
+    for(int i=0; i<3; i++){
+      for(int j=0; j<3; j++){
+        std::cout << " " << game.boards[i][j];
+      }
+      std::cout << std::endl;
+    }
 
-    //Computer will play move it found.
-    test.play(game);
+    while(!game.finished){
+      test.startCalculation(game);
+      test.calculateAhead(game);
+      test.play(game);
+      std::cout << game.getBoardDraw();
 
+    }
 
     cout << "END!" << endl;
     return 0;
 }
-
-
-

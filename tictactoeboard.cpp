@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "tictactoeboard.h"
 
 TicTacToeBoard::TicTacToeBoard(int row, int col){
@@ -7,11 +9,9 @@ TicTacToeBoard::TicTacToeBoard(int row, int col){
 
     for(int i=0; i<3; i++){
         for(int j=0; j<3; j++){
-            cells[i][j] = new Cell(i,j);
+            cells[i][j] = Cell(i,j);
         }
     }
-
-
 }
 
 bool TicTacToeBoard::operator!=(const TicTacToeBoard& other){
@@ -35,33 +35,40 @@ bool TicTacToeBoard::operator!=(const TicTacToeBoard& other){
     return false;
 }
 
+TicTacToeBoard::TicTacToeBoard(const TicTacToeBoard& other):
+  row(other.row),
+  col(other.col),
+  winner(other.winner)
+{
+  for(int i=0; i<3; i++){
+    for(int j=0; j<3; j++){
+      this->cells[i][j] = other.cells[i][j];
+    }
+  }
+}
 
 TicTacToeBoard& TicTacToeBoard::clone(){
+    // TicTacToeBoard clone(this->row,this->col);
+    // clone.winner = this->winner;
+    // for(int ni=0; i<3; i++){
+    //     for(int j=0; j<3; j++){
+    //         clone.cells[i][j] = this->cells[i][j];
+    //     }
+    // }
 
-    TicTacToeBoard clone(this->row,this->col);
-
-    clone.winner = this->winner;
-
-
-    for(int i=0; i<3; i++){
-        for(int j=0; j<3; j++){
-            clone.cells[i][j] = this->cells[i][j];
-        }
-    }
-
-    return clone;
+    return *this;
 }
 
 
 bool TicTacToeBoard::isFull(){
-    for(int i=0; i<3; i++){
-        for(int j=0; j<3; j++){
-            if(!this->cells[i][j]->owner){
-                return false;
-            }
-        }
+  for(int i=0; i<3; i++){
+    for(int j=0; j<3; j++){
+      if(!this->cells[i][j].owner){
+        return false;
+      }
     }
-    return true;
+  }
+  return true;
 }
 
 std::vector<Cell> TicTacToeBoard::getEmptyCells(){
@@ -69,8 +76,8 @@ std::vector<Cell> TicTacToeBoard::getEmptyCells(){
     std::vector<Cell> emptyCells;
     for(int i=0; i<3; i++){
         for(int j=0; j<3; j++){
-            if(!this->cells[i][j]->owner){
-                emptyCells.push_back(*this->cells[i][j]);
+            if(!this->cells[i][j].owner){
+                emptyCells.push_back(this->cells[i][j]);
             }
         }
     }
@@ -79,7 +86,7 @@ std::vector<Cell> TicTacToeBoard::getEmptyCells(){
 }
 
 bool TicTacToeBoard::playCellSilently(int row, int col, int player){
-    Cell cell = *this->cells[row][col];
+    Cell& cell = this->cells[row][col];
 
     cell.owner = player;
     if(!this->winner){
@@ -89,7 +96,7 @@ bool TicTacToeBoard::playCellSilently(int row, int col, int player){
             this->winner = player;
             for(int i=0; i<3; i++){
                 for(int j=0; j<3; j++){
-                    this->cells[i][j]->winner = player;
+                    this->cells[i][j].winner = player;
                 }
             }
         }
@@ -100,10 +107,11 @@ bool TicTacToeBoard::playCellSilently(int row, int col, int player){
 }
 
 bool TicTacToeBoard::playCell(int row, int col, int player){
-    Cell cell = *this->cells[row][col];
+    Cell& cell = this->cells[row][col];
 
     if(!cell.owner){
         cell.playCell(player);
+
         bool won = false;
         if(!this->winner){
             won = this->checkWon(row, col);
@@ -111,7 +119,7 @@ bool TicTacToeBoard::playCell(int row, int col, int player){
                 this->winner = player;
                 for(int i=0; i<3; i++){
                     for(int j=0; j<3; j++){
-                        this->cells[i][j]->setWinner(player);
+                        this->cells[i][j].setWinner(player);
                     }
                 }
             }
@@ -125,12 +133,12 @@ bool TicTacToeBoard::playCell(int row, int col, int player){
 }
 
 bool TicTacToeBoard::checkWon(int row, int col){
-    int player = this->cells[row][col]->owner;
+    int player = this->cells[row][col].owner;
 
     int i=0;
     while(i<3 &&
-          this->cells[row][i]->owner &&
-          this->cells[row][i]->owner == player){
+          this->cells[row][i].owner &&
+          this->cells[row][i].owner == player){
         i += 1;
     }
     if(i == 3){
@@ -140,8 +148,8 @@ bool TicTacToeBoard::checkWon(int row, int col){
     //check the col
     i=0;
     while(i<3 &&
-          this->cells[i][col]->owner &&
-          this->cells[i][col]->owner== player){
+          this->cells[i][col].owner &&
+          this->cells[i][col].owner== player){
         i += 1;
     }
     if(i == 3){
@@ -151,8 +159,8 @@ bool TicTacToeBoard::checkWon(int row, int col){
     //check the upper left to lower right diagnol
     i=0;
     while(i<3 &&
-          this->cells[i][i]->owner &&
-          this->cells[i][i]->owner== player){
+          this->cells[i][i].owner &&
+          this->cells[i][i].owner== player){
         i += 1;
     }
     if(i == 3){
@@ -162,8 +170,8 @@ bool TicTacToeBoard::checkWon(int row, int col){
     //check the uper right to lower left diagnol
     i=0;
     while(i<3 &&
-          this->cells[i][2-i]->owner &&
-          this->cells[i][2-i]->owner == player){
+          this->cells[i][2-i].owner &&
+          this->cells[i][2-i].owner == player){
         i += 1;
     }
     if(i == 3){

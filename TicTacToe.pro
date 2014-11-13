@@ -1,10 +1,10 @@
-
-
 TEMPLATE = app
 CONFIG += console
 CONFIG += c++11
 CONFIG -= app_bundle
 CONFIG -= qt
+
+QMAKE_CXXFLAGS += -DDEBUG
 
 SOURCES += main.cpp \
     cell.cpp \
@@ -21,4 +21,3 @@ HEADERS += \
     game.h \
     clone.h \
     montebot.h
-

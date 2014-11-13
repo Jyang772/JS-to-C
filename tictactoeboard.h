@@ -4,14 +4,16 @@
 #include "cell.h"
 #include <vector>
 
-class TicTacToeBoard{
+class TicTacToeBoard{ // I think here are the main problem
 public:
     TicTacToeBoard(int row, int col);
+    TicTacToeBoard(const TicTacToeBoard& other);
 
     bool operator!=(const TicTacToeBoard& other);
 
     TicTacToeBoard& clone();
     bool isFull();
+
     std::vector<Cell> getEmptyCells();
     bool playCellSilently(int row, int col, int player);
     bool playCell(int row, int col, int player);
@@ -20,8 +22,8 @@ public:
     int row;
     int col;
     int winner;
-    Cell *cells[3][3];
 
+    Cell cells[3][3];
 };
 
 #endif // TICTACTOEBOARD_H
